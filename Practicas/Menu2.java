@@ -1,6 +1,9 @@
 import javax.swing.*;
+import java.awt.event.*;
+import java.util.Scanner;
+import java.io.*;
 
-public class Menu2 {
+public class Menu2 implements ActionListener {
 private JFrame ventana;
 public JMenuBar menuBar;
 public JMenu mnu_Archivo,mnu_archivo_sub;
@@ -23,7 +26,10 @@ public JMenuItem mi_sub_opc1,mi_sub_opc2;
         mnu_Archivo = new JMenu("Archivo");
 
         mi_arch_abrir = new JMenuItem("Abrir");
+        mi_arch_abrir.addActionListener(this);
         mnu_Archivo.add(mi_arch_abrir);
+
+        mnu_Archivo.addSeparator();
 
         mnu_archivo_sub = new JMenu("sub");
         mi_sub_opc1 =  new JMenuItem("Opcion 1");
@@ -34,7 +40,10 @@ public JMenuItem mi_sub_opc1,mi_sub_opc2;
 
         mnu_Archivo.add(mnu_archivo_sub);
 
+        mnu_Archivo.addSeparator();
+
         mi_Arch_salir = new JMenuItem("Salir");
+        mi_Arch_salir.addActionListener(this);
         mnu_Archivo.add(mi_Arch_salir);
 
         menuBar.add(mnu_Archivo);
@@ -43,4 +52,35 @@ public JMenuItem mi_sub_opc1,mi_sub_opc2;
 
         ventana.setVisible(true);
     }
+
+    public void actionPerformed(ActionEvent e)
+    {
+        if(e.getSource()==mi_Arch_salir)
+        System.exit(0);
+        if(e.getSource()== mi_arch_abrir)
+        abrir();
+    }
+
+    public void abrir()
+    {   String linea;
+        try
+        {
+            JFileChooser jfc = new JFileChooser();
+            jfc.showOpenDialog(null);
+            File archivo=jfc.getSelectedFile();
+
+            Scanner sc = new Scanner(archivo);
+            while(sc.hasNextLine())
+            {
+                linea= sc.nextLine();
+                System.out.println();
+            }
+            sc.close();
+        }
+        catch(Exception e)
+        {
+            System.out.println("Error al Abrir el Archivo "+e.toString());
+        }
+    }
+
 }
