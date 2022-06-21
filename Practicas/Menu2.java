@@ -9,6 +9,10 @@ public JMenuBar menuBar;
 public JMenu mnu_Archivo,mnu_archivo_sub;
 public  JMenuItem mi_arch_abrir,mi_Arch_salir;
 public JMenuItem mi_sub_opc1,mi_sub_opc2;
+
+DefaultListModel<String> listModel;
+JList<String> lst_lista;
+JScrollPane sp_lista;
     public static void main(String[]args)
     {
         new Menu2();
@@ -48,6 +52,13 @@ public JMenuItem mi_sub_opc1,mi_sub_opc2;
 
         menuBar.add(mnu_Archivo);
 
+        listModel = new DefaultListModel<String>();
+        lst_lista = new JList<String>(listModel);
+        sp_lista = new JScrollPane(lst_lista);
+
+        sp_lista.setBounds(50,50,200,200);
+        ventana.add(sp_lista);
+
         ventana.setJMenuBar(menuBar);
 
         ventana.setVisible(true);
@@ -73,7 +84,8 @@ public JMenuItem mi_sub_opc1,mi_sub_opc2;
             while(sc.hasNextLine())
             {
                 linea= sc.nextLine();
-                System.out.println();
+                listModel.addElement(linea);
+                //System.out.println(linea);
             }
             sc.close();
         }
