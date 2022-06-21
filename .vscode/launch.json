@@ -1,0 +1,98 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Launch Aparicio532proy1",
+            "request": "launch",
+            "mainClass": "Aparicio532proy1",
+            "projectName": "Desasoft_III_50180b86"
+        },
+        {
+            "type": "java",
+            "name": "Launch Archivo",
+            "request": "launch",
+            "mainClass": "Archivo",
+            "projectName": "Desasoft_III_50180b86"
+        },
+        {
+            "type": "java",
+            "name": "Launch Calculadora2",
+            "request": "launch",
+            "mainClass": "Calculadora2",
+            "projectName": "Desasoft_III_50180b86"
+        },
+        {
+            "type": "java",
+            "name": "Launch Clinica",
+            "request": "launch",
+            "mainClass": "Clinica",
+            "projectName": "Desasoft_III_50180b86"
+        },
+        {
+            "type": "java",
+            "name": "Launch Contador",
+            "request": "launch",
+            "mainClass": "Contador",
+            "projectName": "Desasoft_III_50180b86"
+        },
+        {
+            "type": "java",
+            "name": "Launch CrearBotones",
+            "request": "launch",
+            "mainClass": "CrearBotones",
+            "projectName": "Desasoft_III_50180b86"
+        },
+        {
+            "type": "java",
+            "name": "Launch Menu",
+            "request": "launch",
+            "mainClass": "Menu",
+            "projectName": "Desasoft_III_50180b86"
+        },
+        {
+            "type": "java",
+            "name": "Launch Menu2",
+            "request": "launch",
+            "mainClass": "Menu2",
+            "projectName": "Desasoft_III_50180b86"
+        },
+        {
+            "type": "java",
+            "name": "Launch Mover",
+            "request": "launch",
+            "mainClass": "Mover",
+            "projectName": "Desasoft_III_50180b86"
+        },
+        {
+            "type": "java",
+            "name": "Launch Pizza",
+            "request": "launch",
+            "mainClass": "Pizza",
+            "projectName": "Desasoft_III_50180b86"
+        },
+        {
+            "type": "java",
+            "name": "Launch boton",
+            "request": "launch",
+            "mainClass": "boton",
+            "projectName": "Desasoft_III_50180b86"
+        },
+        {
+            "type": "java",
+            "name": "Launch guess",
+            "request": "launch",
+            "mainClass": "guess",
+            "projectName": "Desasoft_III_50180b86"
+        }
+    ]
+}
