@@ -80,17 +80,17 @@ public int num;
         l_curso.setBounds(600,305,400,30);
         ventana.add(l_curso);
 
-        btn_boton = new JButton[16];
-        for(int i=0;i<16;i++)
+        btn_boton = new JButton[15];
+        for(int i=0;i<15;i++)
         {
-            btn_boton[i]=new JButton(String.valueOf(i+1));
+            btn_boton[i]=new JButton(String.valueOf(i));
             btn_boton[i].setBounds(75+41*(i%4),75+41*(i/4),40,40);
             btn_boton[i].addActionListener(this);
             ventana.add(btn_boton[i]);
         }
 
-        btn_boton[15].setVisible(false);
-        ventana.setVisible(true);
+      //  btn_boton[15].setVisible(false);
+       // ventana.setVisible(true);
     }
 
     public void actionPerformed(ActionEvent e)
