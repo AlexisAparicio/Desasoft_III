@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch ProyectED",
+            "request": "launch",
+            "mainClass": "ProyectED",
+            "projectName": "Desasoft_III_50180b86"
+        },
+        {
+            "type": "java",
+            "name": "Launch Aparicio532proy2",
+            "request": "launch",
+            "mainClass": "Aparicio532proy2",
+            "projectName": "Desasoft_III_50180b86"
+        },
+        {
+            "type": "java",
             "name": "Launch Current File",
             "request": "launch",
             "mainClass": "${file}"
