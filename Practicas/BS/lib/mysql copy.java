@@ -1,11 +1,8 @@
 package BS;
 
 import java.sql.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
-public class Mysql
+public class mysql
 {
 
     String URL, user, pass;
@@ -14,10 +11,10 @@ public class Mysql
 
     public static void main(String[] args)
     {
-        new Mysql();
+        new mysql();
     }
 
-    Mysql()
+    mysql()
     {
         URL = "jdbc:mysql://192.168.64.2/UTP?useSSL=false";
         user = "root";
