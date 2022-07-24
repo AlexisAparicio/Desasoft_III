@@ -10,6 +10,7 @@
             "request": "launch",
             "mainClass": "${file}"
         },
+        
         {
             "type": "java",
             "name": "Launch Aparicio532proy1",
