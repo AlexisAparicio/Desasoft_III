@@ -1,24 +1,31 @@
 package BS;
 
 import javax.swing.*;
+import javax.swing.table.*;
+
 import java.awt.event.*;
 import java.sql.*;
 
 public class mssql implements ActionListener
 {
     JFrame ventana;
+    JComboBox<String> cb_provincia;
     DefaultListModel<String> listModel;
     JList<String> lst_cliente;
     JScrollPane sp_cliente;
-    JButton btn_listar,btn_add,btn_busc,btn_mod,btn_delete;
+    JButton btn_listar,btn_add,btn_busc,btn_mod,btn_delete,btn_listar2,btn_escoger;
 
+    DefaultTableModel dtm_cliente;
+    JTable jt_cliente;
+    JScrollPane sp_cliente2;
     String URL,user,pass;
 
-    JLabel lbl_cedula,lbl_nombre,lbl_apellido;
+    JLabel lbl_cedula,lbl_nombre,lbl_apellido,lbl_provincia;
     JTextField tf_cedula,tf_nombre,tf_apellido;
     
     db db = new db();
     Cliente cliente = new Cliente();
+    provincia provincia =  new provincia();
 
     public static void main(String[]args)
     {
@@ -38,6 +45,12 @@ public class mssql implements ActionListener
         sp_cliente.setBounds(50,50,200,200);
         ventana.add(sp_cliente);
 
+        dtm_cliente = new DefaultTableModel();
+        jt_cliente = new JTable(dtm_cliente);
+        sp_cliente2 = new JScrollPane(jt_cliente);
+        sp_cliente2.setBounds(50,260,200,200);
+        ventana.add(sp_cliente2);
+
         btn_busc = new JButton("Buscar");
         btn_busc.setBounds(260,50,85,20);
         btn_busc.addActionListener(this);
@@ -47,6 +60,16 @@ public class mssql implements ActionListener
         btn_listar.setBounds(260,80,85,20);
         btn_listar.addActionListener(this);
         ventana.add(btn_listar);
+
+        btn_listar2 = new JButton("Listar2 ");
+        btn_listar2.setBounds(260,260,120,20);
+        btn_listar2.addActionListener(this);
+        ventana.add(btn_listar2);
+
+        btn_escoger = new JButton("Escoger");
+        btn_escoger.setBounds(260,285,120,20);
+        btn_escoger.addActionListener(this);
+        ventana.add(btn_escoger);
 
         btn_add = new JButton("Agregar");
         btn_add.setBounds(260,110,85,20);
@@ -90,6 +113,15 @@ public class mssql implements ActionListener
         tf_apellido.setBounds(455,110,80,20);
         ventana.add(tf_apellido);
 
+        lbl_provincia = new JLabel("Provincia");
+        lbl_provincia.setBounds(350,135,80,20);
+        ventana.add(lbl_provincia);
+
+        cb_provincia = new JComboBox<String>();
+        provincia.cargar(cb_provincia);
+        cb_provincia.setBounds(435,135,90,20);
+        ventana.add(cb_provincia);
+
         ventana.setVisible(true);
     }
 
@@ -109,35 +141,28 @@ public class mssql implements ActionListener
 
        if(e.getSource()==btn_delete)
        Borrar();
+       if(e.getSource()==btn_listar2)
+       listar2();
+       if(e.getSource()==btn_escoger)
+       escoger();
     }
 
     public void listar()
     {
         cliente.listar(listModel);
     }
+    public void listar2()
+    {
+        cliente.listar(dtm_cliente);
+    }
 
     public void Agregar()
     {
-        String cedula,nombre,apellido;
-        String sql;
+        cliente.setCedula(tf_cedula.getText());
+        cliente.setNombre(tf_nombre.getText());
+        cliente.setApellido(tf_apellido.getText());
+        cliente.agregar();
 
-        cedula="";
-        nombre="";
-        apellido="";
-        sql="";
-
-        try 
-        {
-            sql = "insert into Clientes(cedula,nombre,apellido) values('";
-            sql = sql+tf_cedula.getText()+"','"+ tf_nombre.getText()+"','"+tf_apellido.getText()+"')";
-            System.out.println(sql);
-            db.executeUpdate(sql);
-
-        } 
-        catch (Exception e) 
-        {
-            System.out.println("error "+ e.toString());
-        }
     }
 
     public void Buscar()
@@ -157,57 +182,33 @@ public class mssql implements ActionListener
         tf_cedula.setText(cliente.getCedula());
         tf_nombre.setText(cliente.getNombre());
         tf_apellido.setText(cliente.getApellido());
+        cb_provincia.setSelectedItem(cliente.getNombreProvincia());
+        //tf_cedula.setEnabled(false);
     }
        
 
     public void Modificar()
     {
-        String cedula,nombre,apellido;
-        String sql;
-
-        cedula="";
-        nombre="";
-        apellido="";
-        sql="";
-
-        try 
-        {
-          //sql = "update Clientes set nombre='Maria_c', apellido='Rodriguez_c' where cedula='8-877-1532'";
-            sql = "update Clientes set nombre='"+tf_nombre.getText()+"', ";
-            sql=sql+"apellido='"+tf_apellido.getText()+"'";
-            sql=sql+"where cedula='"+tf_cedula.getText()+"'";
-            System.out.println(sql);
-            db.executeUpdate(sql);
-
-        } 
-        catch (Exception e) 
-        {
-            System.out.println("error "+ e.toString());
-        }
+        cliente.setCedula(tf_cedula.getText());
+        cliente.setNombre(tf_nombre.getText());
+        cliente.setApellido(tf_apellido.getText());
+        cliente.modificar();   
     }
 
     public void Borrar()
     {
-        String cedula,nombre,apellido;
-        String sql;
-
-        cedula="";
-        nombre="";
-        apellido="";
-        sql="";
-
-        try 
-        {
-         sql = "delete from Clientes where cedula='"+tf_cedula.getText()+"'";
-            
-            System.out.println(sql);
-            db.executeUpdate(sql);
-            tf_apellido.setText(apellido);
-            tf_nombre.setText(nombre);
-        } 
-        catch (Exception e) 
-        {
-            System.out.println("error "+ e.toString());
-        }
+        cliente.setCedula(tf_cedula.getText());
+       // cliente.setNombre(tf_nombre.getText());
+        //cliente.setApellido(tf_apellido.getText());
+        cliente.eliminar(); 
+    }
+    public void escoger()
+    {
+        int fila;
+        fila= jt_cliente.getSelectedRow();
+        tf_cedula.setText(jt_cliente.getValueAt(fila,0).toString());
+        // tf_nombre.setText(jt_cliente.getValueAt(fila,1).toString());
+        // tf_apellido.setText(jt_cliente.getValueAt(fila,2).toString());
+        Buscar();
     }
 }

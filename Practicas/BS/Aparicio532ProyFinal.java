@@ -2,8 +2,6 @@ package BS;
 
 import javax.swing.*;
 import java.awt.event.*;
-import java.util.Scanner;
-import java.io.*;
 
 public class Aparicio532ProyFinal implements ActionListener
 {
@@ -76,9 +74,7 @@ public class Aparicio532ProyFinal implements ActionListener
 	        	mnu_mant.add(mnu_mod_Medico);
 
         menuBar.add(mnu_mant);
-        
-        //mnu_rep_pacientes,mnu_rep_medicos
-        
+
         	mnu_reportes = new JMenu("Reportes");
 
 		        mnu_rep_pacientes = new JMenuItem("Pacientes");
@@ -92,16 +88,6 @@ public class Aparicio532ProyFinal implements ActionListener
 		    	mnu_reportes.add(mnu_rep_medicos);
 
     	menuBar.add(mnu_reportes);
-
-
-
-        // Cuadro de lista
-        lstModel = new DefaultListModel<String>();
-        lst_lista = new JList<String>(lstModel);
-        sp_lista = new JScrollPane(lst_lista);
-
-        sp_lista.setBounds(50,50,200,200);
-        ventana.add(sp_lista);
 
         ventana.setJMenuBar(menuBar);
 
@@ -122,32 +108,6 @@ public class Aparicio532ProyFinal implements ActionListener
         new Reportes_medicos();
     if (e.getSource()== mi_arch_salir)
     System.exit(0);
-   }
-
-   public void abrir()
-   { String linea;
-    try
-    {
-        JFileChooser jfc= new JFileChooser();
-        jfc.showOpenDialog(null);
-
-        File archivo = jfc.getSelectedFile();
-
-        Scanner sc = new Scanner(archivo);
-
-        while (sc.hasNextLine())
-        {
-            linea = sc.nextLine();
-            lstModel.addElement(linea);
-           // System.out.println(linea);
-        }
-        sc.close();
-    }
-    catch (Exception e) 
-    {
-        System.out.println("Error al abrir"+e.toString());
-    }
-    
    }
    
 }
