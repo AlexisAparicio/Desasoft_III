@@ -8,10 +8,11 @@ import javax.swing.table.DefaultTableModel;
 
 public class Personas 
 {
-    private String cedula,nombre,apellido,provincia,nomprovincia;
+    private String cedula,nombre,apellido,provincia,nomprovincia,direccion,telefono,edad,sexo,codigo,especialidad,pacientes_mes,pacientes_anual;
     private String sql;
     db db = new db();
     Bd_medico bd_medico = new Bd_medico();
+    Bd_pacientes bd_pacientes = new Bd_pacientes();
     provincia dbprovincia = new provincia();
 
     public void setCedula(String c)
@@ -48,40 +49,95 @@ public class Personas
     {
         return provincia;
     }
+   
     public String getNombreProvincia()
     {
         return dbprovincia.getDescripcion(provincia);
     }
+    public void setDireccion(String d)
+    {
+        direccion=d;
+    }
 
+    public String getDireccion()
+    {
+        return direccion;
+    }
+    public void setTelefono(String t)
+    {
+        telefono=t;
+    }
+
+    public String getTelefono()
+    {
+        return telefono;
+    }
+    public void setEdad(String e)
+    {
+        edad=e;
+    }
+
+    public String getEdad()
+    {
+        return edad;
+    }
+
+    public void setSexo(String s)
+    {
+        sexo=s;
+    }
+
+    public String getSexo()
+    {
+        return sexo;
+    }
+    /* -----------Medico---------- */
+    public void setCodigo(String q)
+    {
+        codigo=q;
+    }
+
+    public String getCodigo()
+    {
+        return codigo;
+    }
+    public void setEspecialidad(String w)
+    {
+        especialidad=w;
+    }
+
+    public String getEspecilidad()
+    {
+        return especialidad;
+    }
+    public void setPacienteM(String M)
+    {
+        pacientes_mes=M;
+    }
+
+    public String getPacienteM()
+    {
+        return pacientes_mes;
+    }
+    public void setPacienteAnual(String AA)
+    {
+        pacientes_anual=AA;
+    }
+
+    public String getPacienteanual()
+    {
+        return pacientes_anual;
+    }
     public void inicializar()
     {
         cedula="";
         apellido="";
         nombre="";
-    }
+        direccion="";
+        telefono="";
+        edad="";
+        sexo="";
 
-    public void listar(DefaultListModel<String> listModel)
-    {
-        sql="";
-        //listModel.addElement(cedula+ " "+ nombre + " "+ apellido);
-        try 
-        {
-            sql = "select * from Clientes";
-            ResultSet rs = db.executeQuery(sql);
-            listModel.clear();
-            while(rs.next())
-            {
-                cedula = rs.getString("cedula");
-                nombre = rs.getString("nombre");
-                apellido = rs.getString("apellido");
-                listModel.addElement(cedula+ " "+ nombre + " "+ apellido);
-            }
-            db.cerrar();
-        } 
-        catch (Exception e) 
-        {
-            System.out.println("error "+ e.toString());
-        }
     }
 
     public void listar(DefaultTableModel dtm)
@@ -92,19 +148,27 @@ public class Personas
         dtm.addColumn("Cedula");
         dtm.addColumn("Nombre");
         dtm.addColumn("Apellido");
+        dtm.addColumn("Dirección");
+        dtm.addColumn("Telefono");
         dtm.addColumn("Provincia");
+        dtm.addColumn("Edad");
+        dtm.addColumn("Sexo");
 
-        Object[] fila= new Object[4];
+        Object[] fila= new Object[8];
         try 
         {
-            sql = "select * from Clientes,Provincia where Clientes.Provincia = Provincia.codigo";
+            sql = "select * from Pacientes,Provincia where Pacientes.Provincia = Provincia.codigo";
             ResultSet rs = db.executeQuery(sql);
             while(rs.next())
             {
                 fila[0] = rs.getString("cedula");
                 fila[1] = rs.getString("nombre");
                 fila[2] = rs.getString("apellido");
-                fila[3] = rs.getString("Descripcion");
+                fila[3] = rs.getString("direccion");
+                fila[4] = rs.getString("telefono");
+                fila[5] = rs.getString("descripcion");
+                fila[6] = rs.getString("edad");
+                fila[7] = rs.getString("sexo");
                 dtm.addRow(fila);
             }
             db.cerrar();
@@ -122,7 +186,7 @@ public class Personas
 
         try 
         {
-            sql = "select * from Clientes where cedula='"+ced+"'";
+            sql = "select * from Pacientes where cedula='"+ced+"'";
             ResultSet rs = db.executeQuery(sql);
             cedula = ced;
             if(rs.next())
@@ -130,7 +194,10 @@ public class Personas
                
                 nombre = rs.getString("nombre");
                 apellido = rs.getString("apellido");
-                provincia = rs.getString("Provincia");
+                direccion = rs.getString("direccion");
+                telefono = rs.getString("telefono");
+                edad = rs.getString("edad");
+                sexo = rs.getString("sexo");
                 find=true;
             }   
             db.cerrar();
@@ -147,10 +214,14 @@ public class Personas
 
         try 
         {
-            sql = "insert into Clientes(cedula,nombre,apellido) values('";
-            sql = sql+cedula+"','"+ nombre+"','"+apellido+"')";
+
+            //INSERT INTO `Pacientes` (`ID`, `cedula`, `nombre`, `apellido`, `direccion`, `telefono`, `provincia`, `edad`, `sexo`) VALUES (NULL, '3-593-123', 'Adair', 'Ardines', 'Tecal Vacamonte', '2554433', '03', '28', 'M');
+            sql = "insert into Pacientes(cedula,nombre,apellido,direccion,telefono,provincia,edad,sexo) values('";
+            sql = sql+cedula+"','"+ nombre+"','"+apellido+"','";
+            sql = sql+direccion+"','"+ telefono+"','"+provincia+"','";
+            sql= sql+edad+"','"+ sexo+"')";
             System.out.println(sql);
-            db.executeUpdate(sql);
+            bd_pacientes.executeUpdate(sql);
 
         } 
         catch (Exception e) 
@@ -164,8 +235,13 @@ public class Personas
         sql="";
         try 
         {
-             sql = "update Clientes set nombre='"+nombre+"', ";
-            sql=sql+"apellido='"+apellido+"'";
+            sql = "update Pacientes set nombre='"+nombre+"',";
+            sql=sql+"apellido='"+apellido+"',";
+            sql=sql+"direccion='"+direccion+"',";
+            sql=sql+"telefono='"+telefono+"',";
+            //sql=sql+"provincia='"+provincia+"',";
+            sql=sql+"edad='"+edad+"',";
+            sql=sql+"sexo='"+sexo+"'";
             sql=sql+"where cedula='"+cedula+"'";
             System.out.println(sql);
             db.executeUpdate(sql);
@@ -181,10 +257,10 @@ public class Personas
     {   sql="";
         try 
         {
-         sql = "delete from Clientes where cedula='"+cedula+"'";
+         sql = "delete from Pacientes where cedula='"+cedula+"'";
             
             System.out.println(sql);
-            db.executeUpdate(sql);
+            bd_pacientes.executeUpdate(sql);
            
         } 
         catch (Exception e) 
@@ -194,30 +270,6 @@ public class Personas
     }
 
     /*---------------------------------------- */
-
-    public void listarMed(DefaultListModel<String> listModel)
-    {
-        sql="";
-        //listModel.addElement(cedula+ " "+ nombre + " "+ apellido);
-        try 
-        {
-            sql = "select * from Medico";
-            ResultSet rs = db.executeQuery(sql);
-            listModel.clear();
-            while(rs.next())
-            {
-                cedula = rs.getString("cedula");
-                nombre = rs.getString("nombre");
-                apellido = rs.getString("apellido");
-                listModel.addElement(cedula+ " "+ nombre + " "+ apellido);
-            }
-            bd_medico.cerrar();
-        } 
-        catch (Exception e) 
-        {
-            System.out.println("error "+ e.toString());
-        }
-    }
 
     public void listarMED(DefaultTableModel dtm)
     {
@@ -253,7 +305,7 @@ public class Personas
                 
                 dtm.addRow(fila);
             }
-            db.cerrar();
+            bd_medico.cerrar();
         } 
         catch (Exception e) 
         {
@@ -262,24 +314,30 @@ public class Personas
     }
 
 
-    public boolean buscarMED(String ced)
+    public boolean buscarMED(String cod)
     {   boolean find=false;
         inicializar();
 
         try 
         {
-            sql = "select * from Clientes where cedula='"+ced+"'";
+            sql = "select * from Medico where codigo='"+cod+"'";
             ResultSet rs = db.executeQuery(sql);
-            cedula = ced;
+            codigo = cod;
             if(rs.next())
             {
-               
+                
                 nombre = rs.getString("nombre");
                 apellido = rs.getString("apellido");
-                provincia = rs.getString("Provincia");
+                cedula = rs.getString("cedula");
+                direccion = rs.getString("direccion");
+                telefono = rs.getString("telefono");
+                especialidad = rs.getString("especialidad");
+                pacientes_mes = rs.getString("pacientes_mes");
+                pacientes_anual = rs.getString("pacientes_anual");
+                
                 find=true;
             }   
-            db.cerrar();
+            bd_medico.cerrar();
         } 
         catch (Exception e) 
         {
@@ -293,10 +351,12 @@ public class Personas
 
         try 
         {
-            sql = "insert into Clientes(cedula,nombre,apellido) values('";
-            sql = sql+cedula+"','"+ nombre+"','"+apellido+"')";
+            sql = "insert into Medico(codigo,cedula,nombre,apellido,direccion,telefono,especialidad,pacientes_mes,pacientes_anual) values('";
+            sql = sql+codigo+"','"+cedula+"','"+ nombre+"','"+apellido+"','";
+            sql = sql+direccion+"','"+ telefono+"','"+especialidad+"','";
+            sql= sql+pacientes_mes+"','"+ pacientes_anual+"')";
             System.out.println(sql);
-            db.executeUpdate(sql);
+            bd_medico.executeUpdate(sql);
 
         } 
         catch (Exception e) 
@@ -310,11 +370,17 @@ public class Personas
         sql="";
         try 
         {
-             sql = "update Medico set nombre='"+nombre+"', ";
-            sql=sql+"apellido='"+apellido+"'";
-            sql=sql+"where cedula='"+cedula+"'";
+            sql = "update Medico set nombre='"+nombre+"',";
+            sql=sql+"apellido='"+apellido+"',";
+            sql=sql+"direccion='"+direccion+"',";
+            sql=sql+"cedula='"+cedula+"',";
+            sql=sql+"telefono='"+telefono+"',";
+            sql=sql+"especialidad='"+especialidad+"',";
+            sql=sql+"pacientes_mes='"+pacientes_mes+"',";
+            sql=sql+"pacientes_anual='"+pacientes_anual+"'";
+            sql=sql+"where codigo='"+codigo+"'";
             System.out.println(sql);
-            db.executeUpdate(sql);
+            bd_medico.executeUpdate(sql);
 
         } 
         catch (Exception e) 
@@ -327,10 +393,10 @@ public class Personas
     {   sql="";
         try 
         {
-         sql = "delete from Clientes where cedula='"+cedula+"'";
+         sql = "delete from Medico where cod='"+codigo+"'";
             
             System.out.println(sql);
-            db.executeUpdate(sql);
+            bd_medico.executeUpdate(sql);
            
         } 
         catch (Exception e) 
@@ -338,6 +404,24 @@ public class Personas
             System.out.println("error "+ e.toString());
         }
     }
+    /*
+    public String seleccionarProvincia(String provincia){
+        sql = "select * from provincia where descripcion = '"+provincia+"';";
+        String codigo="";
+
+        try{
+            ResultSet resultSet = bd_medico.executeQuery(sql);
+            if(resultSet.next()){
+                codigo = resultSet.getString("codigo");
+            }
+            bd_medico.cerrar();
+        }catch (Exception e){
+            System.err.println("error seleccionar provincia ==> "+e.toString());
+        }
+        return codigo;
+    }
+
+     */
 
     }
 

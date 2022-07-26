@@ -7,7 +7,7 @@ public class Presentacion
 {
     JFrame ventana2;
     Font fnt_text;
-    JLabel lbl_name,lbl_curso,lbl_prof,lbl_year,lbl_uni;
+    JLabel lbl_name,lbl_curso,lbl_prof,lbl_year,lbl_uni,lbl_ced;
 
 
 Presentacion()
@@ -21,9 +21,14 @@ Presentacion()
 
         //Nombre
         lbl_name = new JLabel("Bolivar alexis Aparicio Bedoya");
-        lbl_name.setBounds(40,40,400,20);
+        lbl_name.setBounds(40,40,250,20);
         lbl_name.setFont(fnt_text);
         ventana2.add(lbl_name);
+
+        lbl_ced = new JLabel("8-877-1532");
+        lbl_ced.setBounds(260,40,100,20);
+        lbl_ced.setFont(fnt_text);
+        ventana2.add(lbl_ced);
 
         lbl_curso = new JLabel("Lic. Desarrollo de Software III ");
         lbl_curso.setBounds(40,65,400,20);

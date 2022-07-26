@@ -31,15 +31,15 @@ public class provincia
         ResultSet rs;
         try 
         {
-            db db = new db();
+            Bd_provincia bd_provincia = new Bd_provincia();
             sql="select * from Provincia where codigo='"+cod+"'";
-            rs =  db.executeQuery(sql);
+            rs =  bd_provincia.executeQuery(sql);
             if(rs.next())
             {
                codigo = rs.getString("codigo");
                descripcion = rs.getString("descripcion");
             }
-            db.cerrar();
+            bd_provincia.cerrar();
            } 
            catch (Exception e)
            {
